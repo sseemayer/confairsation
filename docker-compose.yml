@@ -1,0 +1,32 @@
+services:
+
+  frontend:
+    build: frontend
+    ports:
+      - 3000:80
+
+    depends_on:
+      - backend
+      - couchdb
+
+  backend:
+    build: backend
+
+    depends_on:
+      - couchdb
+
+    ports:
+      - 8000:8000
+
+    env_file: env
+
+    environment:
+      COUCHDB_URL: http://couchdb:5984
+
+  couchdb:
+    image: couchdb:3
+    ports:
+      - 5984:5984
+
+    env_file: env
+
